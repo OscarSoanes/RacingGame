@@ -14,23 +14,24 @@ export default class InputHandler {
             car.updatePosition();
         });
 
-        document.addEventListener('keydown', (event) => {
-            if (event.key == "ArrowDown") {
-                // car.moveDown();
-            }
-        });
+        // document.addEventListener('keydown', (event) => {
+        //     if (event.key == "ArrowDown") {
+        //         car.moveDown();
+        //     }
+        // });
 
         document.addEventListener('keydown', (event) => {
             if (event.key == "ArrowLeft") {
-                car.rotation += Math.cos(car.rotation) * .05;
-
+                car.rotation += - 0.03;
+                car.updatePosition();
 
             }
         });
 
         document.addEventListener('keydown', (event) => {
             if (event.key == "ArrowRight") {
-                car.rotation -= Math.cos(car.rotation) * .05;
+                car.rotation -= 0.03;
+                car.updatePosition();
             }
         });
 
@@ -39,16 +40,12 @@ export default class InputHandler {
         document.addEventListener('keyup', (event) => {
             switch(event.key) {
                 case 'ArrowUp':
-                    if (car.speedY < 0) car.stop();
                     break;
                 case 'ArrowDown':
-                    if (car.speedY > 0) car.stop();
                     break;
                 case 'ArrowLeft':
-                    if (car.speedX < 0) car.stop();
                     break;
                 case 'ArrowRight':
-                    if (car.speedX > 0) car.stop();
                     break;
             }
         });

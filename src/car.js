@@ -19,7 +19,7 @@ export default class Car {
             y: 0,
         }
 
-        this.friction = 0.97;
+        this.friction = 0.95;
 
         this.rotation = 0;
     }
@@ -29,52 +29,24 @@ export default class Car {
         this.velocity.x += this.acceleration.x;
         this.velocity.y += this.acceleration.y;
 
-        console.log(this.velocity);
-
-        // // friction
-        // this.velocity.x *= this.friction;
-        // this.velocity.y *= this.friction;
+        // friction
+        this.velocity.x *= this.friction;
+        this.velocity.y *= this.friction;
 
         // update position
-        console.log(this.velocity);
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
 
     }
 
-    // moveLeft() {
-    //     if (this.speedX > -this.maxSpeed) {
-    //         this.speedX -= this.acceleration;
-    //     }
-    // }
-
-    // moveRight() {
-    //     if (this.speedX < this.maxSpeed) {
-    //         this.speedX += this.acceleration;
-    //     }
-    // }
-
-    // moveUp() {
-    //     if (this.speedY > -this.maxSpeed) {
-    //         this.speedY -= this.acceleration;
-    //     }
-    // }
-
-    // moveDown() {
-    //     if (this.speedY < this.maxSpeed) {
-    //         this.speedY += this.acceleration;
-    //     }
-    // }
-
-    // stop() {
-    //     this.speedX = 0;
-    //     this.speedY = 0;
-    // }
-
     update(deltaTime) {
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
-        
+
+        this.updatePosition();
+
+        // console.log(`${this.velocity.x}, ${this.velocity.y}`);
+
         // console.log(`${this.position.x} ${this.position.y}`);
         if (this.position.x < 0) this.position.x = 0;
         if (this.position.x + this.width > this.gameWidth) {
@@ -87,11 +59,7 @@ export default class Car {
         ctx.translate(this.position.x, this.position.y);
         ctx.rotate(this.rotation);
         ctx.fillStyle = 'black';
-        ctx.fillRect(-10, 5, 20, 10);
+        ctx.fillRect(-this.height / 2, this.width / 2, this.height, this.width);
         ctx.restore();
-
-
-        // ctx.fillStyle = '#abc'
-        // ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
     }
 }
