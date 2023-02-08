@@ -24,6 +24,15 @@ export default class Car {
     this.rotation = 0;
 
     this.moving = false;
+
+    this.keys = {
+      ArrowUp: false,
+      ArrowLeft: false,
+      ArrowRight: false,
+      ArrowDown: false,
+    };
+
+    this.speed = 5;
   }
 
   updatePosition() {
@@ -40,18 +49,22 @@ export default class Car {
     this.position.y += this.velocity.y;
   }
 
-  update(_deltaTime) {
-    this.updatePosition();
+  update(deltaTime) {
+    // this.updatePosition();
 
-    if (this.moving === true) {
-      this.position.x += this.velocity.x;
-      this.position.y += this.velocity.y;
-    }
+    this.position.x +=
+      (this.keys.ArrowRight - this.keys.ArrowLeft) * this.speed;
+    this.position.y += (this.keys.ArrowDown - this.keys.ArrowUp) * this.speed;
+    console.log(deltaTime);
+    // if (this.moving === true) {
+    //   this.position.x += this.velocity.x;
+    //   this.position.y += this.velocity.y;
+    // }
 
-    if (this.position.x < 0) this.position.x = 0;
-    if (this.position.x + this.width > this.gameWidth) {
-      this.position.x = this.gameWidth - this.width;
-    }
+    // if (this.position.x < 0) this.position.x = 0;
+    // if (this.position.x + this.width > this.gameWidth) {
+    //   this.position.x = this.gameWidth - this.width;
+    // }
   }
 
   draw(ctx) {
