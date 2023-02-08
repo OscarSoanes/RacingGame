@@ -18,24 +18,24 @@ export default class Car {
       ArrowDown: false,
     };
 
-    this.speed = 3;
+    this.speed = 7;
 
     this.points = {
       point1: {
-        x: this.position.x - this.width / 2,
-        y: this.position.y - this.height / 2,
+        x: 0,
+        y: 0,
       },
       point2: {
-        x: this.position.x / 2,
-        y: this.position.y / 2,
+        x: 0,
+        y: 0,
       },
       point3: {
-        x: this.position.x / 2,
-        y: this.position.y / 2,
+        x: 0,
+        y: 0,
       },
       point4: {
-        x: this.position.x / 2,
-        y: this.position.y / 2,
+        x: 0,
+        y: 0,
       },
     };
   }
@@ -96,13 +96,14 @@ export default class Car {
     // defines rotation
     if (this.keys.ArrowUp == true) {
       if (this.keys.ArrowLeft == true) {
-        this.rotation -= 0.1;
+        this.rotation -= 0.05;
       }
       if (this.keys.ArrowRight == true) {
-        this.rotation += 0.1;
+        this.rotation += 0.05;
       }
     }
 
+    // creates the new movement for X and Y based on rotation
     const moveX =
       (this.keys.ArrowDown - this.keys.ArrowUp) *
       this.speed *
@@ -112,17 +113,12 @@ export default class Car {
       this.speed *
       Math.sin(this.rotation);
 
+    // TODO Collision Detection *on 0 index*
+
     this.position.x += moveX;
     this.position.y += moveY;
 
     this.createPoints();
-    console.log(this.points);
-    if (this.position.y - this.height / 2 < 0) {
-      this.position.y = 0 + this.height / 2;
-    }
-    if (this.position.x + this.width > this.gameWidth) {
-      this.position.x = this.gameWidth - this.width;
-    }
   }
 
   draw(ctx) {
@@ -134,7 +130,7 @@ export default class Car {
     ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
     ctx.restore();
 
-    // temporary
+    // DEBUGGING EACH POINT
     ctx.fillStyle = "red";
     ctx.fillRect(this.points.point1.x, this.points.point1.y, 5, 5);
     ctx.fillRect(this.points.point2.x, this.points.point2.y, 5, 5);
