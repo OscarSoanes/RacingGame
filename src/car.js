@@ -55,16 +55,11 @@ export default class Car {
     this.position.x +=
       (this.keys.ArrowRight - this.keys.ArrowLeft) * this.speed;
     this.position.y += (this.keys.ArrowDown - this.keys.ArrowUp) * this.speed;
-    console.log(deltaTime);
-    // if (this.moving === true) {
-    //   this.position.x += this.velocity.x;
-    //   this.position.y += this.velocity.y;
-    // }
 
-    // if (this.position.x < 0) this.position.x = 0;
-    // if (this.position.x + this.width > this.gameWidth) {
-    //   this.position.x = this.gameWidth - this.width;
-    // }
+    if (this.position.x < 0) this.position.x = 0;
+    if (this.position.x + this.width > this.gameWidth) {
+      this.position.x = this.gameWidth - this.width;
+    }
   }
 
   draw(ctx) {
