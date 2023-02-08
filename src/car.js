@@ -22,8 +22,8 @@ export default class Car {
 
     this.points = {
       point1: {
-        x: this.position.x / 2,
-        y: this.position.y / 2,
+        x: this.position.x - this.width / 2,
+        y: this.position.y - this.height / 2,
       },
       point2: {
         x: this.position.x / 2,
@@ -44,8 +44,8 @@ export default class Car {
     let halfWidth = this.width / 2;
     let halfHeight = this.height / 2;
 
-    this.point.point1 = {
-      // Top Left (upon init)
+    // Top Left (upon init)
+    this.points.point1 = {
       x:
         this.position.x -
         halfWidth * Math.cos(this.rotation) +
@@ -53,6 +53,41 @@ export default class Car {
       y:
         this.position.y -
         halfWidth * Math.sin(this.rotation) -
+        halfHeight * Math.cos(this.rotation),
+    };
+
+    // Top Right (upon init)
+    this.points.point2 = {
+      x:
+        this.position.x +
+        halfWidth * Math.cos(this.rotation) +
+        halfHeight * Math.sin(this.rotation),
+      y:
+        this.position.y +
+        halfWidth * Math.sin(this.rotation) -
+        halfHeight * Math.cos(this.rotation),
+    };
+
+    this.points.point3 = {
+      x:
+        this.position.x -
+        halfWidth * Math.cos(this.rotation) -
+        halfHeight * Math.sin(this.rotation),
+      y:
+        this.position.y -
+        halfWidth * Math.sin(this.rotation) +
+        halfHeight * Math.cos(this.rotation),
+    };
+
+    // Bottom Right (upon init)
+    this.points.point4 = {
+      x:
+        this.position.x +
+        halfWidth * Math.cos(this.rotation) -
+        halfHeight * Math.sin(this.rotation),
+      y:
+        this.position.y +
+        halfWidth * Math.sin(this.rotation) +
         halfHeight * Math.cos(this.rotation),
     };
   }
@@ -80,6 +115,8 @@ export default class Car {
     this.position.x += moveX;
     this.position.y += moveY;
 
+    this.createPoints();
+    console.log(this.points);
     if (this.position.y - this.height / 2 < 0) {
       this.position.y = 0 + this.height / 2;
     }
@@ -97,8 +134,12 @@ export default class Car {
     ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
     ctx.restore();
 
+    // temporary
     ctx.fillStyle = "red";
-    ctx.fillRect(this.point1.x, this.point1.y, 5, 5);
+    ctx.fillRect(this.points.point1.x, this.points.point1.y, 5, 5);
+    ctx.fillRect(this.points.point2.x, this.points.point2.y, 5, 5);
+    ctx.fillRect(this.points.point3.x, this.points.point3.y, 5, 5);
+    ctx.fillRect(this.points.point4.x, this.points.point4.y, 5, 5);
     ctx.restore();
   }
 }
