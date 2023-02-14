@@ -18,7 +18,7 @@ export default class Car {
       ArrowDown: false,
     };
 
-    this.speed = 7;
+    this.speed = 0.5;
 
     this.points = {
       point1: {
@@ -40,6 +40,7 @@ export default class Car {
     };
   }
 
+  // look at getters in week 6
   createPoints() {
     let halfWidth = this.width / 2;
     let halfHeight = this.height / 2;
@@ -105,16 +106,12 @@ export default class Car {
 
     // creates the new movement for X and Y based on rotation
     const moveX =
-      (this.keys.ArrowDown - this.keys.ArrowUp) *
-      this.speed *
-      Math.cos(this.rotation);
+      (this.keys.ArrowDown - this.keys.ArrowUp) * this.speed * Math.cos(this.rotation) * deltaTime;
     const moveY =
-      (this.keys.ArrowDown - this.keys.ArrowUp) *
-      this.speed *
-      Math.sin(this.rotation);
+      (this.keys.ArrowDown - this.keys.ArrowUp) * this.speed * Math.sin(this.rotation) * deltaTime;
 
     // TODO Collision Detection *on 0 index*
-
+    // for loop on each point
     this.position.x += moveX;
     this.position.y += moveY;
 
@@ -125,6 +122,7 @@ export default class Car {
     ctx.save();
     ctx.translate(this.position.x, this.position.y);
     ctx.rotate(this.rotation);
+
     ctx.fillStyle = "black";
     // ctx.fillRect(-this.height / 2, this.width / 2, this.height, this.width);
     ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
