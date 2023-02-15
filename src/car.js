@@ -18,7 +18,12 @@ export default class Car {
       ArrowDown: false,
     };
 
-    this.speed = 7;
+
+    this.speed = 0.005;
+    this.acceleration = 0.001;
+
+    this.xSpeed = 0;
+    this.ySpeed = 0;
 
     this.points = {
       point1: {
@@ -40,55 +45,35 @@ export default class Car {
     };
   }
 
+
+  // look at getters in week 6
   createPoints() {
     let halfWidth = this.width / 2;
     let halfHeight = this.height / 2;
 
     // Top Left (upon init)
     this.points.point1 = {
-      x:
-        this.position.x -
-        halfWidth * Math.cos(this.rotation) +
-        halfHeight * Math.sin(this.rotation),
-      y:
-        this.position.y -
-        halfWidth * Math.sin(this.rotation) -
-        halfHeight * Math.cos(this.rotation),
+
+      x: this.position.x - halfWidth * Math.cos(this.rotation) + halfHeight * Math.sin(this.rotation),
+      y: this.position.y - halfWidth * Math.sin(this.rotation) - halfHeight * Math.cos(this.rotation),
     };
 
     // Top Right (upon init)
     this.points.point2 = {
-      x:
-        this.position.x +
-        halfWidth * Math.cos(this.rotation) +
-        halfHeight * Math.sin(this.rotation),
-      y:
-        this.position.y +
-        halfWidth * Math.sin(this.rotation) -
-        halfHeight * Math.cos(this.rotation),
+
+      x: this.position.x + halfWidth * Math.cos(this.rotation) + halfHeight * Math.sin(this.rotation),
+      y: this.position.y + halfWidth * Math.sin(this.rotation) - halfHeight * Math.cos(this.rotation),
     };
 
     this.points.point3 = {
-      x:
-        this.position.x -
-        halfWidth * Math.cos(this.rotation) -
-        halfHeight * Math.sin(this.rotation),
-      y:
-        this.position.y -
-        halfWidth * Math.sin(this.rotation) +
-        halfHeight * Math.cos(this.rotation),
+      x: this.position.x - halfWidth * Math.cos(this.rotation) - halfHeight * Math.sin(this.rotation),
+      y: this.position.y - halfWidth * Math.sin(this.rotation) + halfHeight * Math.cos(this.rotation),
     };
 
     // Bottom Right (upon init)
     this.points.point4 = {
-      x:
-        this.position.x +
-        halfWidth * Math.cos(this.rotation) -
-        halfHeight * Math.sin(this.rotation),
-      y:
-        this.position.y +
-        halfWidth * Math.sin(this.rotation) +
-        halfHeight * Math.cos(this.rotation),
+      x: this.position.x + halfWidth * Math.cos(this.rotation) - halfHeight * Math.sin(this.rotation),
+      y: this.position.y + halfWidth * Math.sin(this.rotation) + halfHeight * Math.cos(this.rotation),
     };
   }
 
@@ -104,19 +89,14 @@ export default class Car {
     }
 
     // creates the new movement for X and Y based on rotation
-    const moveX =
-      (this.keys.ArrowDown - this.keys.ArrowUp) *
-      this.speed *
-      Math.cos(this.rotation);
-    const moveY =
-      (this.keys.ArrowDown - this.keys.ArrowUp) *
-      this.speed *
-      Math.sin(this.rotation);
+    this.speed = this.acceleration * deltaTime;
+    this.xSpeed += (this.keys.ArrowDown - this.keys.ArrowUp) * this.speed * Math.cos(this.rotation) * deltaTime;
+    this.ySpeed += (this.keys.ArrowDown - this.keys.ArrowUp) * this.speed * Math.sin(this.rotation) * deltaTime;
 
     // TODO Collision Detection *on 0 index*
-
-    this.position.x += moveX;
-    this.position.y += moveY;
+    // for loop on each point
+    this.position.x += this.xSpeed;
+    this.position.y += this.ySpeed;
 
     this.createPoints();
   }
@@ -125,6 +105,7 @@ export default class Car {
     ctx.save();
     ctx.translate(this.position.x, this.position.y);
     ctx.rotate(this.rotation);
+
     ctx.fillStyle = "black";
     // ctx.fillRect(-this.height / 2, this.width / 2, this.height, this.width);
     ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
