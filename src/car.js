@@ -18,6 +18,7 @@ export default class Car {
       ArrowDown: false,
     };
 
+
     this.speed = 0.005;
     this.acceleration = 0.001;
 
@@ -44,6 +45,7 @@ export default class Car {
     };
   }
 
+
   // look at getters in week 6
   createPoints() {
     let halfWidth = this.width / 2;
@@ -51,12 +53,14 @@ export default class Car {
 
     // Top Left (upon init)
     this.points.point1 = {
+
       x: this.position.x - halfWidth * Math.cos(this.rotation) + halfHeight * Math.sin(this.rotation),
       y: this.position.y - halfWidth * Math.sin(this.rotation) - halfHeight * Math.cos(this.rotation),
     };
 
     // Top Right (upon init)
     this.points.point2 = {
+
       x: this.position.x + halfWidth * Math.cos(this.rotation) + halfHeight * Math.sin(this.rotation),
       y: this.position.y + halfWidth * Math.sin(this.rotation) - halfHeight * Math.cos(this.rotation),
     };
