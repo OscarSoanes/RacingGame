@@ -18,9 +18,12 @@ export default class Car {
       ArrowDown: false,
     };
 
+    this.speed = 0.0001;
+    this.maxSpeed = 0.3;
+    this.acceleration = 0.0000001;
 
-    this.speed = 0.005;
-    this.acceleration = 0.001;
+    this.xVelocity = 0;
+    this.yVelocity = 0;
 
     this.xSpeed = 0;
     this.ySpeed = 0;
@@ -45,7 +48,6 @@ export default class Car {
     };
   }
 
-
   // look at getters in week 6
   createPoints() {
     let halfWidth = this.width / 2;
@@ -53,14 +55,12 @@ export default class Car {
 
     // Top Left (upon init)
     this.points.point1 = {
-
       x: this.position.x - halfWidth * Math.cos(this.rotation) + halfHeight * Math.sin(this.rotation),
       y: this.position.y - halfWidth * Math.sin(this.rotation) - halfHeight * Math.cos(this.rotation),
     };
 
     // Top Right (upon init)
     this.points.point2 = {
-
       x: this.position.x + halfWidth * Math.cos(this.rotation) + halfHeight * Math.sin(this.rotation),
       y: this.position.y + halfWidth * Math.sin(this.rotation) - halfHeight * Math.cos(this.rotation),
     };
@@ -77,27 +77,61 @@ export default class Car {
     };
   }
 
+  updatePosition() {
+    this.xVelocity += this.xSpeed;
+    this.yVelocity += this.ySpeed;
+
+    this.xVelocity *= 0.97;
+    this.yVelocity *= 0.97;
+
+    this.position.x += this.xVelocity;
+    this.position.y += this.yVelocity;
+  }
+
   update(deltaTime) {
-    // defines rotation
-    if (this.keys.ArrowUp == true) {
+    // if (
+    //   this.xSpeed > this.maxSpeed ||
+    //   this.xSpeed < -this.maxSpeed ||
+    //   this.ySpeed > this.maxSpeed ||
+    //   this.ySpeed < -this.maxSpeed
+    // ) {
+    //   this.updatePosition();
+    //   this.createPoints();
+    // }
+
+    console.log(this.ySpeed, this.xSpeed);
+
+    if (this.ySpeed !== 0 || this.ySpeed !== 0) {
+      // Rotation
       if (this.keys.ArrowLeft == true) {
         this.rotation -= 0.05;
       }
-      if (this.keys.ArrowRight == true) {
+      if (this.keys.ArrowRight) {
         this.rotation += 0.05;
       }
     }
 
-    // creates the new movement for X and Y based on rotation
-    this.speed = this.acceleration * deltaTime;
-    this.xSpeed += (this.keys.ArrowDown - this.keys.ArrowUp) * this.speed * Math.cos(this.rotation) * deltaTime;
-    this.ySpeed += (this.keys.ArrowDown - this.keys.ArrowUp) * this.speed * Math.sin(this.rotation) * deltaTime;
+    if (this.keys.ArrowUp || this.keys.ArrowDown) {
+      // Speed
+      this.xSpeed += (this.keys.ArrowDown - this.keys.ArrowUp) * this.speed * Math.cos(this.rotation) * deltaTime;
+      this.ySpeed += (this.keys.ArrowDown - this.keys.ArrowUp) * this.speed * Math.sin(this.rotation) * deltaTime;
+    } else {
+      // Deceleration
+      this.xSpeed *= 0.1;
+      this.ySpeed *= 0.1;
+
+      // Stopping
+      if (this.xSpeed < this.speed) {
+        this.xSpeed = 0;
+      }
+      if (this.ySpeed < this.speed) {
+        this.ySpeed = 0;
+      }
+    }
 
     // TODO Collision Detection *on 0 index*
     // for loop on each point
-    this.position.x += this.xSpeed;
-    this.position.y += this.ySpeed;
-
+    this.updatePosition();
     this.createPoints();
   }
 
