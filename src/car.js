@@ -19,14 +19,16 @@ export default class Car {
     };
 
     this.speed = 0.0001;
-    this.maxSpeed = 0.3;
-    this.acceleration = 0.0000001;
+    this.maxSpeed = 0.03;
+    this.acceleration = 0.00000001;
 
     this.xVelocity = 0;
     this.yVelocity = 0;
 
     this.xSpeed = 0;
     this.ySpeed = 0;
+
+    this.moving = false;
 
     this.points = {
       point1: {
@@ -98,11 +100,7 @@ export default class Car {
     //   this.updatePosition();
     //   this.createPoints();
     // }
-
-    console.log(this.ySpeed, this.xSpeed);
-
-    if (this.ySpeed !== 0 || this.ySpeed !== 0) {
-      // Rotation
+    if (this.moving == true) {
       if (this.keys.ArrowLeft == true) {
         this.rotation -= 0.05;
       }
@@ -112,20 +110,23 @@ export default class Car {
     }
 
     if (this.keys.ArrowUp || this.keys.ArrowDown) {
+      this.moving = true;
       // Speed
       this.xSpeed += (this.keys.ArrowDown - this.keys.ArrowUp) * this.speed * Math.cos(this.rotation) * deltaTime;
       this.ySpeed += (this.keys.ArrowDown - this.keys.ArrowUp) * this.speed * Math.sin(this.rotation) * deltaTime;
     } else {
       // Deceleration
-      this.xSpeed *= 0.1;
-      this.ySpeed *= 0.1;
+      this.xSpeed *= 0.95;
+      this.ySpeed *= 0.95;
 
       // Stopping
-      if (this.xSpeed < this.speed) {
+      if (this.ySpeed < this.speed) {
         this.xSpeed = 0;
+        this.moving = false;
       }
       if (this.ySpeed < this.speed) {
         this.ySpeed = 0;
+        this.moving = false;
       }
     }
 
@@ -140,9 +141,11 @@ export default class Car {
     ctx.translate(this.position.x, this.position.y);
     ctx.rotate(this.rotation);
 
-    ctx.fillStyle = "black";
+    const carimg = new Image();
+    carimg.src = "..\\img\\car.png";
+    ctx.drawImage(carimg, -this.width / 2, -this.height / 2, this.width, this.height);
     // ctx.fillRect(-this.height / 2, this.width / 2, this.height, this.width);
-    ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
+    // ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
     ctx.restore();
 
     // DEBUGGING EACH POINT

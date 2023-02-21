@@ -1,20 +1,23 @@
 import Car from "../src/car.js";
 import InputHandler from "../src/input.js";
+import Map from "../src/map.js";
 
 export default class Game {
-    constructor(gameWidth, gameHeight) {
-        this.gameWidth = gameWidth;
-        this.gameHeight = gameHeight;
-        
-        this.car = new Car(this);
-        new InputHandler(this.car);
-    }
+  constructor(gameWidth, gameHeight) {
+    this.gameWidth = gameWidth;
+    this.gameHeight = gameHeight;
 
-    update(deltaTime) {
-        this.car.update(deltaTime);
-    }
+    this.map = new Map(this);
+    this.car = new Car(this);
+    new InputHandler(this.car);
+  }
 
-    draw(ctx) {
-        this.car.draw(ctx);
-    }
+  update(deltaTime) {
+    this.car.update(deltaTime);
+  }
+
+  draw(ctx) {
+    this.map.draw(ctx);
+    this.car.draw(ctx);
+  }
 }
