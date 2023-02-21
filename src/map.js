@@ -9,7 +9,7 @@ export default class Map {
 
   draw(ctx) {
     ctx.save();
-    this.background.src = "..\\img\\Map1.jpg";
+    this.background.src = "img\\Map1.jpg";
     ctx.drawImage(this.background, 0, 0, this.gameWidth, this.gameHeight);
     ctx.restore();
   }

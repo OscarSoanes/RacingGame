@@ -142,7 +142,7 @@ export default class Car {
     ctx.rotate(this.rotation);
 
     const carimg = new Image();
-    carimg.src = "..\\img\\car.png";
+    carimg.src = "img\\car.png";
     ctx.drawImage(carimg, -this.width / 2, -this.height / 2, this.width, this.height);
     // ctx.fillRect(-this.height / 2, this.width / 2, this.height, this.width);
     // ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
