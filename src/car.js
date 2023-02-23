@@ -1,6 +1,7 @@
 export default class Car {
   constructor(game) {
     this.gameWidth = game.gameWidth;
+    this.gameHeight = game.gameHeight;
     this.width = 50;
     this.height = 30;
 
@@ -91,21 +92,12 @@ export default class Car {
   }
 
   update(deltaTime) {
-    // if (
-    //   this.xSpeed > this.maxSpeed ||
-    //   this.xSpeed < -this.maxSpeed ||
-    //   this.ySpeed > this.maxSpeed ||
-    //   this.ySpeed < -this.maxSpeed
-    // ) {
-    //   this.updatePosition();
-    //   this.createPoints();
-    // }
     if (this.moving == true) {
       if (this.keys.ArrowLeft == true) {
-        this.rotation -= 0.05;
+        this.rotation -= 0.02;
       }
       if (this.keys.ArrowRight) {
-        this.rotation += 0.05;
+        this.rotation += 0.02;
       }
     }
 
@@ -130,7 +122,23 @@ export default class Car {
       }
     }
 
-    // TODO Collision Detection *on 0 index*
+    // TODO UPDATE BASED ON VELOCITY (NOT KEYS)
+    // TODO Collision Detection ON BARRIER/ GRASS
+    for (const position in this.points) {
+      if (
+        (this.points[position].x < 0 && this.keys.ArrowDown != true) ||
+        (this.points[position].y < 0 && this.keys.ArrowDown != true) ||
+        (this.points[position].x > this.gameWidth && this.keys.ArrowDown != true) ||
+        (this.points[position].y > this.gameHeight && this.keys.ArrowDown != true)
+      ) {
+        console.log("crash!!!");
+        this.moving = false;
+        this.xVelocity = 0;
+        this.yVelocity = 0;
+        return;
+      }
+    }
+
     // for loop on each point
     this.updatePosition();
     this.createPoints();
@@ -150,10 +158,10 @@ export default class Car {
 
     // DEBUGGING EACH POINT
     ctx.fillStyle = "red";
-    ctx.fillRect(this.points.point1.x, this.points.point1.y, 5, 5);
-    ctx.fillRect(this.points.point2.x, this.points.point2.y, 5, 5);
-    ctx.fillRect(this.points.point3.x, this.points.point3.y, 5, 5);
-    ctx.fillRect(this.points.point4.x, this.points.point4.y, 5, 5);
+    ctx.fillRect(this.points.point1.x, this.points.point1.y, 2, 2);
+    ctx.fillRect(this.points.point2.x, this.points.point2.y, 2, 2);
+    ctx.fillRect(this.points.point3.x, this.points.point3.y, 2, 2);
+    ctx.fillRect(this.points.point4.x, this.points.point4.y, 2, 2);
     ctx.restore();
   }
 }
