@@ -124,15 +124,19 @@ export default class Car {
 
     // TODO UPDATE BASED ON VELOCITY (NOT KEYS)
     // TODO Collision Detection ON BARRIER/ GRASS
+
+    console.log(this.xVelocity, this.speed);
     for (const position in this.points) {
       if (
-        (this.points[position].x < 0 && this.keys.ArrowDown != true) ||
-        (this.points[position].y < 0 && this.keys.ArrowDown != true) ||
-        (this.points[position].x > this.gameWidth && this.keys.ArrowDown != true) ||
-        (this.points[position].y > this.gameHeight && this.keys.ArrowDown != true)
+        (this.points[position].x < 0 && this.xVelocity < -this.speed) ||
+        (this.points[position].y < 0 && this.yVelocity < -this.speed) ||
+        (this.points[position].x > this.gameWidth && this.xVelocity > this.speed) ||
+        (this.points[position].y > this.gameHeight && this.yVelocity > this.speed)
       ) {
         console.log("crash!!!");
         this.moving = false;
+        this.xSpeed = 0;
+        this.ySpeed = 0;
         this.xVelocity = 0;
         this.yVelocity = 0;
         return;
