@@ -156,7 +156,26 @@ export default class Car {
 
   checkPositionColour(position) {
     const canvas = document.getElementById("game").getContext("2d");
-    console.log(canvas.getImageData(position.x, position.y, 1, 1));
+    const pixelData = canvas.getImageData(position.x, position.y, 1, 1, {colorSpace: "srgb"}).data;
+    const roadValues = [
+      51, 59, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86,
+      87, 88, 90, 91, 92, 93, 94, 95, 96, 97, 98, 100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 116, 122, 132,
+      136, 140, 143, 144, 147, 151, 152, 158, 159, 160, 161, 161, 162, 163, 164, 165, 166, 167, 168, 170, 171, 172, 173,
+      174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196,
+      197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 255,
+    ];
+    if (roadValues.includes(pixelData[0]) && pixelData[0] === pixelData[1] && pixelData[0] === pixelData[2]) {
+    } else if (
+      (pixelData[0] === 193 && pixelData[1] === 39 && pixelData[2] === 45) ||
+      (pixelData[0] === 233 && pixelData[1] === 255 && pixelData[2] === 253) ||
+      (pixelData[0] === 230 && pixelData[1] === 230 && pixelData[2] === 230)
+    ) {
+      console.log(pixelData);
+      console.log("slow tf down bitch");
+    } else {
+      console.log(pixelData);
+      console.log("oh shit");
+    }
   }
 
   draw(ctx) {
