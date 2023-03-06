@@ -85,34 +85,38 @@ export default class Car {
     let halfWidth = this.width / 2;
     let halfHeight = this.height / 2;
 
-    // Top Left (upon init)
-    if (point == "point1") {
-      return {
-        x: this.position.x - halfWidth * Math.cos(this.rotation) + halfHeight * Math.sin(this.rotation),
-        y: this.position.y - halfWidth * Math.sin(this.rotation) - halfHeight * Math.cos(this.rotation),
+    let fakePoint = {x: fakeX, y: fakeY};
+
+    if (point === "point1") {
+      fakePoint = {
+        x: fakeX - halfWidth * Math.cos(this.rotation) + halfHeight * Math.sin(this.rotation),
+        y: fakeY - halfWidth * Math.sin(this.rotation) - halfHeight * Math.cos(this.rotation),
       };
     }
 
     // Top Right (upon init)
     if (point === "point2") {
-      return {
-        x: this.position.x + halfWidth * Math.cos(this.rotation) + halfHeight * Math.sin(this.rotation),
-        y: this.position.y + halfWidth * Math.sin(this.rotation) - halfHeight * Math.cos(this.rotation),
+      fakePoint = {
+        x: fakeX + halfWidth * Math.cos(this.rotation) + halfHeight * Math.sin(this.rotation),
+        y: fakeY + halfWidth * Math.sin(this.rotation) - halfHeight * Math.cos(this.rotation),
       };
     }
 
     if (point === "point3") {
-      return {
-        x: this.position.x - halfWidth * Math.cos(this.rotation) - halfHeight * Math.sin(this.rotation),
-        y: this.position.y - halfWidth * Math.sin(this.rotation) + halfHeight * Math.cos(this.rotation),
+      fakePoint = {
+        x: fakeX - halfWidth * Math.cos(this.rotation) - halfHeight * Math.sin(this.rotation),
+        y: fakeY - halfWidth * Math.sin(this.rotation) + halfHeight * Math.cos(this.rotation),
       };
     }
 
     // Bottom Right (upon init)
-    return {
-      x: this.position.x + halfWidth * Math.cos(this.rotation) - halfHeight * Math.sin(this.rotation),
-      y: this.position.y + halfWidth * Math.sin(this.rotation) + halfHeight * Math.cos(this.rotation),
-    };
+    if (point === "point4") {
+      fakePoint = {
+        x: fakeX + halfWidth * Math.cos(this.rotation) - halfHeight * Math.sin(this.rotation),
+        y: fakeY + halfWidth * Math.sin(this.rotation) + halfHeight * Math.cos(this.rotation),
+      };
+    }
+    return fakePoint;
   }
 
   updatePosition() {
@@ -177,12 +181,11 @@ export default class Car {
 
     const fakePosition = this.fakeUpdatePosition();
 
-    console.log(this.position);
-    console.log(this.fakePosition);
-
     for (const position in this.points) {
       let fakePoints = this.fakeCreatePoints(position, fakePosition.x, fakePosition.y);
       let location = checkPositionColour(fakePoints);
+
+      console.log(position, location);
 
       if (
         (this.points[position].x < 0 && this.xVelocity < -this.speed) ||
