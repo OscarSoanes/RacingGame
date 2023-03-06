@@ -81,6 +81,40 @@ export default class Car {
     };
   }
 
+  fakeCreatePoints(point, fakeX, fakeY) {
+    let halfWidth = this.width / 2;
+    let halfHeight = this.height / 2;
+
+    // Top Left (upon init)
+    if (point == "point1") {
+      return {
+        x: this.position.x - halfWidth * Math.cos(this.rotation) + halfHeight * Math.sin(this.rotation),
+        y: this.position.y - halfWidth * Math.sin(this.rotation) - halfHeight * Math.cos(this.rotation),
+      };
+    }
+
+    // Top Right (upon init)
+    if (point === "point2") {
+      return {
+        x: this.position.x + halfWidth * Math.cos(this.rotation) + halfHeight * Math.sin(this.rotation),
+        y: this.position.y + halfWidth * Math.sin(this.rotation) - halfHeight * Math.cos(this.rotation),
+      };
+    }
+
+    if (point === "point3") {
+      return {
+        x: this.position.x - halfWidth * Math.cos(this.rotation) - halfHeight * Math.sin(this.rotation),
+        y: this.position.y - halfWidth * Math.sin(this.rotation) + halfHeight * Math.cos(this.rotation),
+      };
+    }
+
+    // Bottom Right (upon init)
+    return {
+      x: this.position.x + halfWidth * Math.cos(this.rotation) - halfHeight * Math.sin(this.rotation),
+      y: this.position.y + halfWidth * Math.sin(this.rotation) + halfHeight * Math.cos(this.rotation),
+    };
+  }
+
   updatePosition() {
     this.xVelocity += this.xSpeed;
     this.yVelocity += this.ySpeed;
@@ -90,6 +124,18 @@ export default class Car {
 
     this.position.x += this.xVelocity;
     this.position.y += this.yVelocity;
+  }
+
+  fakeUpdatePosition() {
+    this.xVelocity += this.xSpeed;
+    this.yVelocity += this.ySpeed;
+
+    this.xVelocity *= 0.97;
+    this.yVelocity *= 0.97;
+
+    const fakeX = this.position.x + this.xVelocity;
+    const fakeY = this.position.y + this.yVelocity;
+    return {x: fakeX, y: fakeY};
   }
 
   update(deltaTime) {
@@ -129,11 +175,14 @@ export default class Car {
       this.ySpeed *= 0.95;
     }
 
-    // TODO UPDATE BASED ON VELOCITY (NOT KEYS)
-    // TODO Collision Detection ON BARRIER/ GRASS
+    const fakePosition = this.fakeUpdatePosition();
+
+    console.log(this.position);
+    console.log(this.fakePosition);
 
     for (const position in this.points) {
-      let location = checkPositionColour(this.points[position]);
+      let fakePoints = this.fakeCreatePoints(position, fakePosition.x, fakePosition.y);
+      let location = checkPositionColour(fakePoints);
 
       if (
         (this.points[position].x < 0 && this.xVelocity < -this.speed) ||
@@ -157,8 +206,11 @@ export default class Car {
         this.ySpeed *= 0.95;
         this.xSpeed *= 0.95;
       } else if (location === "speed stop") {
-        this.xSpeed === 0;
-        this.ySpeed === 0;
+        this.moving = false;
+        this.xVelocity = 0;
+        this.yVelocity = 0;
+        this.xSpeed = 0;
+        this.ySpeed = 0;
       }
     }
 
