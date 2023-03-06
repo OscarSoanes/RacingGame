@@ -18,6 +18,9 @@ export default class Game {
 
   draw(ctx) {
     this.map.draw(ctx);
+  }
+
+  drawLater(ctx) {
     this.car.draw(ctx);
   }
 }

@@ -122,11 +122,17 @@ export default class Car {
       }
     }
 
+    // Prevents permnement static acceleration
+    if (this.keys.ArrowDown && this.keys.ArrowDown) {
+      this.xSpeed *= 0.95;
+      this.ySpeed *= 0.95;
+    }
+
     // TODO UPDATE BASED ON VELOCITY (NOT KEYS)
     // TODO Collision Detection ON BARRIER/ GRASS
 
-    console.log(this.xVelocity, this.speed);
     for (const position in this.points) {
+      this.checkPositionColour(this.points[position]);
       if (
         (this.points[position].x < 0 && this.xVelocity < -this.speed) ||
         (this.points[position].y < 0 && this.yVelocity < -this.speed) ||
@@ -146,6 +152,11 @@ export default class Car {
     // for loop on each point
     this.updatePosition();
     this.createPoints();
+  }
+
+  checkPositionColour(position) {
+    const canvas = document.getElementById("game").getContext("2d");
+    console.log(canvas.getImageData(position.x, position.y, 1, 1));
   }
 
   draw(ctx) {
