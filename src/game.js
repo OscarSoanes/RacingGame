@@ -84,7 +84,7 @@ export default class Game {
       const lapCounter = document.getElementById("lap-count");
       lapCounter.textContent = "Lap Counter 0/3";
 
-      this.car = new Car(this);
+      this.car = new Car(this, this.volume);
       new InputHandler(this.car);
     });
   }

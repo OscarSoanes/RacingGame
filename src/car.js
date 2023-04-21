@@ -1,6 +1,7 @@
 import {checkPositionColour} from "./colision-detection.js";
+import {getVolume} from "./getVolume.js";
 export default class Car {
-  constructor(game) {
+  constructor(game, volume) {
     this.gameWidth = game.gameWidth;
     this.gameHeight = game.gameHeight;
     this.width = 50;
@@ -148,6 +149,7 @@ export default class Car {
 
   update(deltaTime) {
     if (this.moving == true) {
+      this.audio.volume = getVolume();
       this.audio.play();
 
       if (this.keys.ArrowLeft == true) {
