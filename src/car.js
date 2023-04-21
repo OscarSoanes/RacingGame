@@ -52,6 +52,8 @@ export default class Car {
     };
     this.checkpoint = false;
     this.lap = 0;
+
+    this.audio = new Audio("./audio/engine.mp3");
   }
 
   // look at getters in week 6
@@ -146,6 +148,8 @@ export default class Car {
 
   update(deltaTime) {
     if (this.moving == true) {
+      this.audio.play();
+
       if (this.keys.ArrowLeft == true) {
         this.rotation -= 0.02;
       }
