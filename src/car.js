@@ -1,7 +1,7 @@
 import {checkPositionColour} from "./colision-detection.js";
 import {getVolume} from "./getVolume.js";
 export default class Car {
-  constructor(game, volume) {
+  constructor(game) {
     this.gameWidth = game.gameWidth;
     this.gameHeight = game.gameHeight;
     this.width = 50;
@@ -246,6 +246,7 @@ export default class Car {
     this.createPoints();
 
     if (this.lap === 3) {
+      this.audio.pause();
       return true;
     }
   }

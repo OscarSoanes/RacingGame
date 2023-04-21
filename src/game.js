@@ -1,6 +1,7 @@
 import Car from "../src/car.js";
 import InputHandler from "../src/input.js";
 import Map from "../src/map.js";
+import {getVolume} from "./getVolume.js";
 
 export default class Game {
   constructor(gameWidth, gameHeight) {
@@ -14,9 +15,19 @@ export default class Game {
     this.finish = false;
     this.start = this.start();
     this.countdown = 3;
+
+    this.audio = new Audio("./audio/start.mp3");
+    this.audio.play();
+    this.audio.loop = true;
+    this.audio.volume = 0.1;
   }
 
   update(deltaTime) {
+    if (getVolume() < 0.1) {
+      this.audio.volume = getVolume();
+    } else {
+      this.audio.volume = 0.1;
+    }
     if (this.finish === true) {
       this.end();
     }
@@ -44,6 +55,9 @@ export default class Game {
     const container = document.getElementById("countdown");
     container.classList.remove("none");
     const countdownText = document.getElementById("countdown-text");
+
+    const beepAudio = new Audio("./audio/beep.mp3");
+    beepAudio.play();
     const interval = setInterval(() => {
       this.countdown--;
       countdownText.textContent = `${this.countdown}...`;
@@ -51,6 +65,8 @@ export default class Game {
       if (this.countdown === 0) {
         clearInterval(interval);
         container.classList.add("none");
+      } else {
+        beepAudio.play();
       }
     }, 1000);
     await new Promise((resolve) => setTimeout(resolve, (countdown + 1) * 1000));
@@ -62,6 +78,8 @@ export default class Game {
     btn.addEventListener("click", () => {
       const displayMenu = document.getElementById("start-screen");
       displayMenu.classList.add("none");
+      this.audio.pause();
+      this.audio.currentTime = 0;
       this.countDown();
 
       this.start = true;
@@ -86,6 +104,8 @@ export default class Game {
 
       this.car = new Car(this, this.volume);
       new InputHandler(this.car);
+
+      this.audio.play();
     });
   }
 }
