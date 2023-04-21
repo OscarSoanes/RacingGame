@@ -1,7 +1,6 @@
 import Car from "../src/car.js";
 import InputHandler from "../src/input.js";
 import Map from "../src/map.js";
-import {start} from "./start.js";
 
 export default class Game {
   constructor(gameWidth, gameHeight) {
@@ -17,6 +16,9 @@ export default class Game {
   }
 
   update(deltaTime) {
+    if (this.finish === true) {
+      this.end();
+    }
     if (this.finish === true || this.start !== true) {
       return;
     }
@@ -43,6 +45,27 @@ export default class Game {
       const displayMenu = document.getElementById("start-screen");
       displayMenu.classList.add("none");
       this.start = true;
+    });
+  }
+
+  end() {
+    this.start = false;
+    this.finish = false;
+    const displayMenu = document.getElementById("finish-screen");
+    displayMenu.classList.remove("none");
+
+    const btn = document.getElementById("end-btn");
+    btn.addEventListener("click", () => {
+      displayMenu.classList.add("none");
+
+      const startMenu = document.getElementById("start-screen");
+      startMenu.classList.remove("none");
+
+      const lapCounter = document.getElementById("lap-count");
+      lapCounter.textContent = "Lap Counter 0/3";
+
+      this.car = new Car(this);
+      new InputHandler(this.car);
     });
   }
 }

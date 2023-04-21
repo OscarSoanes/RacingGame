@@ -12,7 +12,7 @@ body {
     position: relative;
 }
 
-#game, #start-screen {
+#game, #start-screen, #finish-screen {
     width: 800px;
     height: 600px;
     border: 1px solid black;
@@ -27,7 +27,7 @@ p {
     font-size: large;
 }
 
-#start-screen {
+#start-screen, #finish-screen {
     position: absolute;
     left: calc(50% - 400px);
     top: 112px;
@@ -39,11 +39,11 @@ p {
     color: white;
 }
 
-#start-screen > p {
+#start-screen > p, #finish-screen > p {
     font-size: 2rem;
 }
 
-#start-btn {
+#start-btn, #end-btn {
     padding: 1rem;
 }
 
