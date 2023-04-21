@@ -1,6 +1,7 @@
 import Car from "../src/car.js";
 import InputHandler from "../src/input.js";
 import Map from "../src/map.js";
+import {start} from "./start.js";
 
 export default class Game {
   constructor(gameWidth, gameHeight) {
@@ -12,10 +13,11 @@ export default class Game {
     new InputHandler(this.car);
 
     this.finish = false;
+    this.start = this.start();
   }
 
   update(deltaTime) {
-    if (this.finish === true) {
+    if (this.finish === true || this.start !== true) {
       return;
     }
     this.finish = this.car.update(deltaTime);
@@ -27,9 +29,20 @@ export default class Game {
   }
 
   drawLater(ctx) {
-    if (this.finish === true) {
+    console.log(this.start);
+    if (this.finish === true || this.start !== true) {
       return;
     }
     this.car.draw(ctx);
+  }
+
+  start() {
+    const btn = document.getElementById("start-btn");
+
+    btn.addEventListener("click", () => {
+      const displayMenu = document.getElementById("start-screen");
+      displayMenu.classList.add("none");
+      this.start = true;
+    });
   }
 }
