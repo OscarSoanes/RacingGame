@@ -50,6 +50,8 @@ export default class Car {
         y: 0,
       },
     };
+    this.checkpoint = false;
+    this.lap = 0;
   }
 
   // look at getters in week 6
@@ -185,8 +187,6 @@ export default class Car {
       let fakePoints = this.fakeCreatePoints(position, fakePosition.x, fakePosition.y);
       let location = checkPositionColour(fakePoints);
 
-      console.log(position, location);
-
       if (
         (this.points[position].x < 0 && this.xVelocity < -this.speed) ||
         (this.points[position].y < 0 && this.yVelocity < -this.speed) ||
@@ -217,9 +217,31 @@ export default class Car {
       }
     }
 
+    // checkpoint
+    if (
+      this.points.point1.y > this.gameWidth / 2 &&
+      this.points.point1.x > this.gameHeight / 2 &&
+      this.checkpoint === false
+    ) {
+      this.checkpoint = true;
+    }
+
+    // lap increase
+    if (this.points.point1.y < this.gameWidth / 2 && this.points.point1.x < 300 && this.checkpoint === true) {
+      this.lap++;
+      this.checkpoint = false;
+
+      const lapCounter = document.getElementById("lap-count");
+      lapCounter.textContent = `Lap Counter ${this.lap}/3`;
+    }
+
     // for loop on each point
     this.updatePosition();
     this.createPoints();
+
+    if (this.lap === 3) {
+      return true;
+    }
   }
 
   draw(ctx) {

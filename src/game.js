@@ -10,10 +10,16 @@ export default class Game {
     this.map = new Map(this);
     this.car = new Car(this);
     new InputHandler(this.car);
+
+    this.finish = false;
   }
 
   update(deltaTime) {
-    this.car.update(deltaTime);
+    if (this.finish === true) {
+      return;
+    }
+    this.finish = this.car.update(deltaTime);
+    console.log(this.finish);
   }
 
   draw(ctx) {
@@ -21,6 +27,9 @@ export default class Game {
   }
 
   drawLater(ctx) {
+    if (this.finish === true) {
+      return;
+    }
     this.car.draw(ctx);
   }
 }
