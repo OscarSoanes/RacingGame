@@ -13,6 +13,7 @@ export default class Game {
 
     this.finish = false;
     this.start = this.start();
+    this.countdown = 3;
   }
 
   update(deltaTime) {
@@ -22,8 +23,10 @@ export default class Game {
     if (this.finish === true || this.start !== true) {
       return;
     }
+    if (this.countdown !== 0) {
+      return;
+    }
     this.finish = this.car.update(deltaTime);
-    console.log(this.finish);
   }
 
   draw(ctx) {
@@ -31,11 +34,26 @@ export default class Game {
   }
 
   drawLater(ctx) {
-    console.log(this.start);
     if (this.finish === true || this.start !== true) {
       return;
     }
     this.car.draw(ctx);
+  }
+
+  async countDown() {
+    const container = document.getElementById("countdown");
+    container.classList.remove("none");
+    const countdownText = document.getElementById("countdown-text");
+    const interval = setInterval(() => {
+      this.countdown--;
+      countdownText.textContent = `${this.countdown}...`;
+
+      if (this.countdown === 0) {
+        clearInterval(interval);
+        container.classList.add("none");
+      }
+    }, 1000);
+    await new Promise((resolve) => setTimeout(resolve, (countdown + 1) * 1000));
   }
 
   start() {
@@ -44,6 +62,8 @@ export default class Game {
     btn.addEventListener("click", () => {
       const displayMenu = document.getElementById("start-screen");
       displayMenu.classList.add("none");
+      this.countDown();
+
       this.start = true;
     });
   }
