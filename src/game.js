@@ -8,32 +8,8 @@ export default class Game {
     this.gameWidth = gameWidth;
     this.gameHeight = gameHeight;
 
-    this.startingData = [
-      {
-        position: {
-          x: this.gameWidth / 2 - 50 / 2,
-          y: this.gameHeight / 2 - 75 - 30 / 2,
-        },
-        keys: {
-          W: false,
-          A: false,
-          D: false,
-          S: false,
-        },
-      },
-      {
-        position: {
-          x: this.gameWidth / 2 + 50 / 2,
-          y: this.gameHeight / 2 - 50 / 2,
-        },
-        keys: {
-          ArrowUp: false,
-          ArrowLeft: false,
-          ArrowRight: false,
-          ArrowDown: false,
-        },
-      },
-    ];
+    this.startingData = {};
+    this.setStartingData();
 
     this.map = new Map(this);
 
@@ -169,6 +145,11 @@ export default class Game {
     this.finish1 = false;
     this.finish2 = false;
     this.singlePlayer = undefined;
+    const lapData = document.getElementById("lap-data");
+    lapData.classList.add("hide");
+    const secondPlayer = document.getElementById("lap-count-p2");
+    secondPlayer.classList.add("none");
+
     const displayMenu = document.getElementById("finish-screen");
     displayMenu.classList.remove("none");
 
@@ -184,7 +165,8 @@ export default class Game {
 
       const lapCounterP2 = document.getElementById("lap-count-p2");
       lapCounterP2.textContent = "Player 2 Lap Counter: 0/3";
-
+      console.log(this.startingData);
+      this.setStartingData();
       this.car = new Car(this, this.startingData[0].position, this.startingData[0].keys);
       new InputHandler(this.car);
       this.car2 = new Car(this, this.startingData[1].position, this.startingData[1].keys);
@@ -192,5 +174,34 @@ export default class Game {
 
       this.audio.play();
     });
+  }
+
+  setStartingData() {
+    this.startingData = [
+      {
+        position: {
+          x: this.gameWidth / 2 - 50 / 2,
+          y: this.gameHeight / 2 - 75 - 30 / 2,
+        },
+        keys: {
+          W: false,
+          A: false,
+          D: false,
+          S: false,
+        },
+      },
+      {
+        position: {
+          x: this.gameWidth / 2 + 50 / 2,
+          y: this.gameHeight / 2 - 50 / 2,
+        },
+        keys: {
+          ArrowUp: false,
+          ArrowLeft: false,
+          ArrowRight: false,
+          ArrowDown: false,
+        },
+      },
+    ];
   }
 }
