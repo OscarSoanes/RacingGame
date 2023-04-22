@@ -1,25 +1,19 @@
 import {checkPositionColour} from "./colision-detection.js";
 import {getVolume} from "./getVolume.js";
 export default class Car {
-  constructor(game) {
+  constructor(game, startPosition, inputs, player) {
     this.gameWidth = game.gameWidth;
     this.gameHeight = game.gameHeight;
     this.width = 50;
     this.height = 30;
 
-    this.position = {
-      x: game.gameWidth / 2 - this.width / 2,
-      y: game.gameHeight / 2 - 75 - this.height / 2,
-    };
+    this.position = startPosition;
+    console.log(startPosition);
 
     this.rotation = 0;
 
-    this.keys = {
-      ArrowUp: false,
-      ArrowLeft: false,
-      ArrowRight: false,
-      ArrowDown: false,
-    };
+    this.keys = inputs;
+    console.log(this.keys);
 
     this.speed = 0.0001;
     this.maxSpeed = 0.03;
@@ -55,6 +49,8 @@ export default class Car {
     this.lap = 0;
 
     this.audio = new Audio("./audio/engine.mp3");
+
+    this.player = player;
   }
 
   // look at getters in week 6
@@ -152,19 +148,27 @@ export default class Car {
       this.audio.volume = getVolume();
       this.audio.play();
 
-      if (this.keys.ArrowLeft == true) {
+      if (this.keys[Object.keys(this.keys)[1]] == true) {
         this.rotation -= 0.02;
       }
-      if (this.keys.ArrowRight) {
+      if (this.keys[Object.keys(this.keys)[2]]) {
         this.rotation += 0.02;
       }
     }
 
-    if (this.keys.ArrowUp || this.keys.ArrowDown) {
+    if (this.keys[Object.keys(this.keys)[0]] || this.keys[Object.keys(this.keys)[3]]) {
       this.moving = true;
       // Speed
-      this.xSpeed += (this.keys.ArrowDown - this.keys.ArrowUp) * this.speed * Math.cos(this.rotation) * deltaTime;
-      this.ySpeed += (this.keys.ArrowDown - this.keys.ArrowUp) * this.speed * Math.sin(this.rotation) * deltaTime;
+      this.xSpeed +=
+        (this.keys[Object.keys(this.keys)[3]] - this.keys[Object.keys(this.keys)[0]]) *
+        this.speed *
+        Math.cos(this.rotation) *
+        deltaTime;
+      this.ySpeed +=
+        (this.keys[Object.keys(this.keys)[3]] - this.keys[Object.keys(this.keys)[0]]) *
+        this.speed *
+        Math.sin(this.rotation) *
+        deltaTime;
     } else {
       // Deceleration
       this.xSpeed *= 0.95;
@@ -182,7 +186,7 @@ export default class Car {
     }
 
     // Prevents permnement static acceleration
-    if (this.keys.ArrowDown && this.keys.ArrowDown) {
+    if (this.keys[Object.keys(this.keys)[3]] && this.keys[Object.keys(this.keys)[3]]) {
       this.xSpeed *= 0.95;
       this.ySpeed *= 0.95;
     }
@@ -236,17 +240,30 @@ export default class Car {
     if (this.points.point1.y < this.gameWidth / 2 && this.points.point1.x < 300 && this.checkpoint === true) {
       this.lap++;
       this.checkpoint = false;
-
-      const lapCounter = document.getElementById("lap-count");
-      lapCounter.textContent = `Lap Counter ${this.lap}/3`;
+      if (this.player === "player1") {
+        const lapCounter = document.getElementById("lap-count");
+        lapCounter.textContent = `Player 1 Lap Counter: ${this.lap}/3`;
+      } else {
+        const lapCounter = document.getElementById("lap-count-p2");
+        lapCounter.textContent = `Player 2 Lap Counter: ${this.lap}/3`;
+      }
     }
 
     // for loop on each point
     this.updatePosition();
     this.createPoints();
 
-    if (this.lap === 3) {
+    if (this.lap > 3) {
       this.audio.pause();
+
+      if (this.player === "player1") {
+        const lapCounter = document.getElementById("lap-count");
+        lapCounter.textContent = `Player 1 Lap Counter: FINISHED`;
+      } else {
+        const lapCounter = document.getElementById("lap-count-p2");
+        lapCounter.textContent = `Player 2 Lap Counter: FINISHED`;
+      }
+
       return true;
     }
   }

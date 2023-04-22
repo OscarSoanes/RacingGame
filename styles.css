@@ -27,6 +27,13 @@ p {
     font-size: large;
 }
 
+.lap-data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8rem;
+}
+
 #start-screen, #finish-screen, #countdown {
     position: absolute;
     left: calc(50% - 400px);
