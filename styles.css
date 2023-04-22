@@ -27,6 +27,13 @@ p {
     font-size: large;
 }
 
+#lap-data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8rem;
+}
+
 #start-screen, #finish-screen, #countdown {
     position: absolute;
     left: calc(50% - 400px);
@@ -42,12 +49,16 @@ p {
     font-size: 2rem;
 }
 
-#start-btn, #end-btn {
+#start-btn, #end-btn, #solo-start {
     padding: 1rem;
 }
 
 .none {
     display: none !important;
+}
+
+.hide {
+    visibility: hidden;
 }
 
 #countdown {
