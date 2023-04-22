@@ -46,7 +46,7 @@ export default class Car {
       },
     };
     this.checkpoint = false;
-    this.lap = 0;
+    this.lap = 3;
 
     this.audio = new Audio("./audio/engine.mp3");
 

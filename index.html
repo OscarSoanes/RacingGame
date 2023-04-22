@@ -10,15 +10,15 @@
   <body>
     <h1>2D Racing Game</h1>
 
-    <div class="lap-data">
+    <div class="hide" id="lap-data">
       <p id="lap-count">Player 1 Lap Counter: 0/3</p>
-      <p id="lap-count-p2">Player 2 Lap Counter: 0/3</p>
+      <p id="lap-count-p2" class="none">Player 2 Lap Counter: 0/3</p>
     </div>
     <canvas id="game"> </canvas>
     <div id="start-screen">
       <p>Welcome to a Racing Game</p>
-      <button id="solo-start">Start 1 Player</button>
-      <button id="start-btn">Start 2 Player</button>
+      <button id="solo-start">Solo Practice</button>
+      <button id="start-btn">Race Local 2 Player</button>
     </div>
     <div id="countdown" class="none">
       <p id="countdown-text">3...</p>

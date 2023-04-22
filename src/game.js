@@ -51,6 +51,8 @@ export default class Game {
     this.audio.play();
     this.audio.loop = true;
     this.audio.volume = 0.1;
+
+    this.singlePlayer = false;
   }
 
   update(deltaTime) {
@@ -59,16 +61,30 @@ export default class Game {
     } else {
       this.audio.volume = 0.1;
     }
-    if (this.finish === true && this.finish2 === true) {
-      this.end();
-    }
-    if ((this.finish === true && this.finish2 === true) || this.start !== true) {
-      return;
-    }
+
     if (this.countdown !== 0) {
       return;
     }
-    this.finish = this.car.update(deltaTime);
+
+    if (this.singlePlayer === true) {
+      if (this.finish1 === true) {
+        this.end();
+      }
+      if (this.finish1 === true || this.start !== true) {
+        return;
+      }
+      this.finish1 = this.car.update(deltaTime);
+      return;
+    }
+
+    if (this.finish1 === true && this.finish2 === true) {
+      this.end();
+    }
+    if ((this.finish1 === true && this.finish2 === true) || this.start !== true) {
+      return;
+    }
+    this.finish1 = this.car.update(deltaTime);
+
     this.finish2 = this.car2.update(deltaTime);
   }
 
@@ -77,7 +93,15 @@ export default class Game {
   }
 
   drawLater(ctx) {
-    if (this.finish === true || (this.start !== true && this.finish2 === true)) {
+    if (this.singlePlayer === true) {
+      if (this.finish1 === true || this.start !== true) {
+        return;
+      }
+      this.car.draw(ctx);
+      return;
+    }
+
+    if ((this.finish1 === true && this.finish2 === true) || this.start !== true) {
       return;
     }
     this.car.draw(ctx);
@@ -98,31 +122,53 @@ export default class Game {
       if (this.countdown === 0) {
         clearInterval(interval);
         container.classList.add("none");
+        countdownText.textContent = "3...";
       } else {
         beepAudio.play();
       }
     }, 1000);
-    await new Promise((resolve) => setTimeout(resolve, (countdown + 1) * 1000));
+    await new Promise((resolve) => setTimeout(resolve, (this.countdown + 1) * 1000));
   }
 
   start() {
     const btn = document.getElementById("start-btn");
+    const lapData = document.getElementById("lap-data");
 
     btn.addEventListener("click", () => {
       const displayMenu = document.getElementById("start-screen");
       displayMenu.classList.add("none");
       this.audio.pause();
       this.audio.currentTime = 0;
+      this.countdown = 3;
       this.countDown();
 
+      const secondPlayer = document.getElementById("lap-count-p2");
+      lapData.classList.remove("hide");
+      secondPlayer.classList.remove("none");
+
+      this.start = true;
+    });
+
+    const singlePlayerStart = document.getElementById("solo-start");
+    singlePlayerStart.addEventListener("click", () => {
+      const displayMenu = document.getElementById("start-screen");
+      displayMenu.classList.add("none");
+      this.audio.pause();
+      this.audio.currentTime = 0;
+      this.countdown = 3;
+      this.countDown();
+
+      this.singlePlayer = true;
+      lapData.classList.remove("hide");
       this.start = true;
     });
   }
 
   end() {
     this.start = false;
-    this.finish = false;
+    this.finish1 = false;
     this.finish2 = false;
+    this.singlePlayer = undefined;
     const displayMenu = document.getElementById("finish-screen");
     displayMenu.classList.remove("none");
 

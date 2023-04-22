@@ -65,6 +65,8 @@ function checkPositionColour(position) {
     [142, 117, 118],
     [57, 144, 57],
     [111, 97, 97],
+    [169, 99, 102],
+    [145, 93, 95],
   ];
 
   let isSideRoad = false;

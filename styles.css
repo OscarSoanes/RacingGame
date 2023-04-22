@@ -27,7 +27,7 @@ p {
     font-size: large;
 }
 
-.lap-data {
+#lap-data {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -49,12 +49,16 @@ p {
     font-size: 2rem;
 }
 
-#start-btn, #end-btn {
+#start-btn, #end-btn, #solo-start {
     padding: 1rem;
 }
 
 .none {
     display: none !important;
+}
+
+.hide {
+    visibility: hidden;
 }
 
 #countdown {
