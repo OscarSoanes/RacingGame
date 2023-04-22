@@ -167,9 +167,9 @@ export default class Game {
       lapCounterP2.textContent = "Player 2 Lap Counter: 0/3";
       console.log(this.startingData);
       this.setStartingData();
-      this.car = new Car(this, this.startingData[0].position, this.startingData[0].keys);
+      this.car = new Car(this, this.startingData[0].position, this.startingData[0].keys, "player1");
       new InputHandler(this.car);
-      this.car2 = new Car(this, this.startingData[1].position, this.startingData[1].keys);
+      this.car2 = new Car(this, this.startingData[1].position, this.startingData[1].keys, "player2");
       new InputHandler(this.car2);
 
       this.audio.play();
