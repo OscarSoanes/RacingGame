@@ -184,10 +184,10 @@ export default class Game {
           y: this.gameHeight / 2 - 75 - 30 / 2,
         },
         keys: {
-          W: false,
-          A: false,
-          D: false,
-          S: false,
+          KeyW: false,
+          KeyA: false,
+          KeyD: false,
+          KeyS: false,
         },
       },
       {

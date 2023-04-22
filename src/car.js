@@ -46,7 +46,7 @@ export default class Car {
       },
     };
     this.checkpoint = false;
-    this.lap = 3;
+    this.lap = 0;
 
     this.audio = new Audio("./audio/engine.mp3");
 
@@ -148,6 +148,7 @@ export default class Car {
       this.audio.volume = getVolume();
       this.audio.play();
 
+      // rotation
       if (this.keys[Object.keys(this.keys)[1]] == true) {
         this.rotation -= 0.02;
       }

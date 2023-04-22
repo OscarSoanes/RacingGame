@@ -1,11 +1,11 @@
 export default class InputHandler {
   constructor(car) {
     window.addEventListener("keydown", (ev) => {
-      car.keys[ev.key] = true;
+      car.keys[ev.code] = true;
     });
 
     window.addEventListener("keyup", (ev) => {
-      car.keys[ev.key] = false;
+      car.keys[ev.code] = false;
     });
   }
 }
