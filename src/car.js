@@ -275,18 +275,13 @@ export default class Car {
     ctx.rotate(this.rotation);
 
     const carimg = new Image();
-    carimg.src = "img\\car.png";
-    ctx.drawImage(carimg, -this.width / 2, -this.height / 2, this.width, this.height);
-    // ctx.fillRect(-this.height / 2, this.width / 2, this.height, this.width);
-    // ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
-    ctx.restore();
 
-    // DEBUGGING EACH POINT
-    // ctx.fillStyle = "red";
-    // ctx.fillRect(this.points.point1.x, this.points.point1.y, 2, 2);
-    // ctx.fillRect(this.points.point2.x, this.points.point2.y, 2, 2);
-    // ctx.fillRect(this.points.point3.x, this.points.point3.y, 2, 2);
-    // ctx.fillRect(this.points.point4.x, this.points.point4.y, 2, 2);
-    // ctx.restore();
+    if (this.player === "player1") {
+      carimg.src = "img\\car.png";
+    } else {
+      carimg.src = "img\\car2.png";
+    }
+    ctx.drawImage(carimg, -this.width / 2, -this.height / 2, this.width, this.height);
+    ctx.restore();
   }
 }
