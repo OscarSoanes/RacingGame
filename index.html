@@ -17,8 +17,15 @@
     <canvas id="game"> </canvas>
     <div id="start-screen">
       <p>Welcome to a Racing Game</p>
+      <div class="set-lap-container">
+        <label for="set-lap-count">Lap Count</label>
+        <input type="number" name="set-lap-count" id="set-lap" value="3" min="1" max="100" />
+      </div>
+
       <button id="solo-start">Solo Practice</button>
-      <button id="start-btn">Race Local 2 Player</button>
+      <div class="2-player-container">
+        <button id="start-btn">Race Local 2 Player</button>
+      </div>
     </div>
     <div id="countdown" class="none">
       <p id="countdown-text">3...</p>

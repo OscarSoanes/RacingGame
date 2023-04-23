@@ -10,12 +10,12 @@ export default class Game {
 
     this.startingData = {};
     this.setStartingData();
-
+    this.totalLaps = this.totalLaps();
     this.map = new Map(this);
 
-    this.car = new Car(this, this.startingData[0].position, this.startingData[0].keys, "player1");
+    this.car = new Car(this, this.startingData[0].position, this.startingData[0].keys, "player1", this.totalLaps);
     new InputHandler(this.car);
-    this.car2 = new Car(this, this.startingData[1].position, this.startingData[1].keys, "player2");
+    this.car2 = new Car(this, this.startingData[1].position, this.startingData[1].keys, "player2", this.totalLaps);
     new InputHandler(this.car2);
 
     this.finish1 = false;
@@ -170,9 +170,9 @@ export default class Game {
       lapCounterP2.textContent = "Player 2 Lap Counter: 0/3";
       console.log(this.startingData);
       this.setStartingData();
-      this.car = new Car(this, this.startingData[0].position, this.startingData[0].keys, "player1");
+      this.car = new Car(this, this.startingData[0].position, this.startingData[0].keys, "player1", this.totalLaps);
       new InputHandler(this.car);
-      this.car2 = new Car(this, this.startingData[1].position, this.startingData[1].keys, "player2");
+      this.car2 = new Car(this, this.startingData[1].position, this.startingData[1].keys, "player2", this.totalLaps);
       new InputHandler(this.car2);
     });
   }
@@ -204,5 +204,25 @@ export default class Game {
         },
       },
     ];
+  }
+
+  totalLaps() {
+    const lapCountEl = document.getElementById("set-lap");
+
+    lapCountEl.addEventListener("change", () => {
+      this.totalLaps = parseInt(lapCountEl.value);
+
+      const lapCounter = document.getElementById("lap-count");
+      const lapCounterp2 = document.getElementById("lap-count-p2");
+      lapCounter.textContent = `Player 1 Lap Counter: 0/${this.totalLaps}`;
+      lapCounterp2.textContent = `Player 2 Lap Counter: 0/${this.totalLaps}`;
+
+      this.car = new Car(this, this.startingData[0].position, this.startingData[0].keys, "player1", this.totalLaps);
+      new InputHandler(this.car);
+      this.car2 = new Car(this, this.startingData[1].position, this.startingData[1].keys, "player2", this.totalLaps);
+      new InputHandler(this.car2);
+    });
+
+    return parseInt(lapCountEl.value);
   }
 }

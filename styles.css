@@ -49,6 +49,11 @@ p {
     font-size: 2rem;
 }
 
+#start-btn {
+    margin-top: 1rem;
+    width: 100%;
+}
+
 #start-btn, #end-btn, #solo-start {
     padding: 1rem;
 }
@@ -90,4 +95,21 @@ p {
     width: 40px !important;
     margin: auto;
     transform: rotate(90deg);
+}
+
+.set-lap-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.set-lap-container > input {
+    height: 2rem;
+}
+
+input, button, label {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: .25rem;
 }

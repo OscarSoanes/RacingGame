@@ -1,7 +1,7 @@
 import {checkPositionColour} from "./colision-detection.js";
 import {getVolume} from "./getVolume.js";
 export default class Car {
-  constructor(game, startPosition, inputs, player) {
+  constructor(game, startPosition, inputs, player, totalLaps) {
     this.gameWidth = game.gameWidth;
     this.gameHeight = game.gameHeight;
     this.width = 50;
@@ -51,6 +51,8 @@ export default class Car {
     this.audio = new Audio("./audio/engine.mp3");
 
     this.player = player;
+
+    this.totalLaps = totalLaps;
   }
 
   // look at getters in week 6
@@ -243,10 +245,10 @@ export default class Car {
       this.checkpoint = false;
       if (this.player === "player1") {
         const lapCounter = document.getElementById("lap-count");
-        lapCounter.textContent = `Player 1 Lap Counter: ${this.lap}/3`;
+        lapCounter.textContent = `Player 1 Lap Counter: ${this.lap}/${this.totalLaps}`;
       } else {
         const lapCounter = document.getElementById("lap-count-p2");
-        lapCounter.textContent = `Player 2 Lap Counter: ${this.lap}/3`;
+        lapCounter.textContent = `Player 2 Lap Counter: ${this.lap}/${this.totalLaps}`;
       }
     }
 
@@ -254,7 +256,7 @@ export default class Car {
     this.updatePosition();
     this.createPoints();
 
-    if (this.lap > 3) {
+    if (this.lap > this.totalLaps) {
       this.audio.pause();
 
       if (this.player === "player1") {
