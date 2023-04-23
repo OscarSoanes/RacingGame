@@ -68,3 +68,22 @@ p {
 #countdown > p {
     font-size: 2rem;
 }
+
+.control-container {
+    display: flex;
+    justify-content: center;
+    gap: 8rem;
+    margin-top: 2rem;
+}
+
+.controls > img {
+    margin-top: 1rem;
+    width: 10rem;
+}
+
+.car {
+    width: 40px !important;
+    display: block;
+    margin: auto;
+    transform: rotate(90deg);
+}

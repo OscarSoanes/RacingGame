@@ -24,14 +24,16 @@ export default class Game {
     this.countdown = 3;
 
     this.audio = new Audio("./audio/start.mp3");
-    this.audio.play();
-    this.audio.loop = true;
+    // this.audio.loop = true;
     this.audio.volume = 0.1;
 
     this.singlePlayer = false;
   }
 
   update(deltaTime) {
+    if (this.start !== true) {
+      this.audio.play();
+    }
     if (getVolume() < 0.1) {
       this.audio.volume = getVolume();
     } else {
@@ -145,6 +147,7 @@ export default class Game {
     this.finish1 = false;
     this.finish2 = false;
     this.singlePlayer = undefined;
+    this.audio.play();
     const lapData = document.getElementById("lap-data");
     lapData.classList.add("hide");
     const secondPlayer = document.getElementById("lap-count-p2");
@@ -171,8 +174,6 @@ export default class Game {
       new InputHandler(this.car);
       this.car2 = new Car(this, this.startingData[1].position, this.startingData[1].keys, "player2");
       new InputHandler(this.car2);
-
-      this.audio.play();
     });
   }
 
