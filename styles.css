@@ -81,9 +81,13 @@ p {
     width: 10rem;
 }
 
+.flex {
+    display: flex;
+    gap: 0.25rem;
+}
+
 .car {
     width: 40px !important;
-    display: block;
     margin: auto;
     transform: rotate(90deg);
 }
