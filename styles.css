@@ -12,7 +12,7 @@ body {
     position: relative;
 }
 
-#game, #start-screen, #finish-screen, #countdown {
+#game, #start-screen, #finish-screen, #countdown, #paused-menu {
     width: 800px;
     height: 600px;
     border: 1px solid black;
@@ -34,7 +34,7 @@ p {
     gap: 8rem;
 }
 
-#start-screen, #finish-screen, #countdown {
+#start-screen, #finish-screen, #countdown, #paused-menu {
     position: absolute;
     left: calc(50% - 400px);
     top: 112px;
@@ -112,4 +112,12 @@ input, button, label {
     font-size: 1.5rem;
     border: none;
     border-radius: .25rem;
+}
+
+#paused-menu {
+    background-color: #00000080;
+}
+
+.large-text {
+    font-size: 2rem;
 }

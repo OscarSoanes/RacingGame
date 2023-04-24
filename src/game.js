@@ -28,6 +28,8 @@ export default class Game {
     this.audio.volume = 0.1;
 
     this.singlePlayer = false;
+    this.paused = false;
+    this.isPaused();
   }
 
   update(deltaTime) {
@@ -41,6 +43,10 @@ export default class Game {
     }
 
     if (this.countdown !== 0) {
+      return;
+    }
+
+    if (this.paused === true) {
       return;
     }
 
@@ -147,6 +153,7 @@ export default class Game {
     this.finish1 = false;
     this.finish2 = false;
     this.singlePlayer = undefined;
+    this.paused = false;
     this.audio.play();
     const lapData = document.getElementById("lap-data");
     lapData.classList.add("hide");
@@ -204,6 +211,28 @@ export default class Game {
         },
       },
     ];
+  }
+
+  isPaused() {
+    const pausedMenu = document.getElementById("paused-menu");
+    addEventListener("keydown", (e) => {
+      if (e.code === "Escape" && this.start === true && this.end !== true) {
+        console.log(!this.paused);
+        if (this.paused === false) {
+          this.paused = true;
+          pausedMenu.classList.remove("none");
+        } else {
+          this.paused = false;
+          pausedMenu.classList.add("none");
+        }
+      }
+    });
+
+    const quitBtn = document.getElementById("return");
+    quitBtn.addEventListener("click", () => {
+      pausedMenu.classList.add("none");
+      this.end();
+    });
   }
 
   totalLaps() {
