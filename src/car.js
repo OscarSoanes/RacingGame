@@ -55,7 +55,6 @@ export default class Car {
     this.totalLaps = totalLaps;
   }
 
-  // look at getters in week 6
   createPoints() {
     let halfWidth = this.width / 2;
     let halfHeight = this.height / 2;
@@ -178,7 +177,7 @@ export default class Car {
       this.ySpeed *= 0.95;
 
       // Stopping
-      if (this.ySpeed < this.speed) {
+      if (this.xSpeed < this.speed) {
         this.xSpeed = 0;
         this.moving = false;
       }
@@ -206,7 +205,7 @@ export default class Car {
         (this.points[position].x > this.gameWidth && this.xVelocity > this.speed) ||
         (this.points[position].y > this.gameHeight && this.yVelocity > this.speed)
       ) {
-        console.log("crash!!!");
+        // crashed
         this.moving = false;
         this.xSpeed = 0;
         this.ySpeed = 0;
@@ -240,9 +239,15 @@ export default class Car {
     }
 
     // lap increase
-    if (this.points.point1.y < this.gameWidth / 2 && this.points.point1.x < 300 && this.checkpoint === true) {
+    if (
+      this.points.point1.y < this.gameWidth / 2 &&
+      this.points.point1.x < 300 &&
+      this.points.point1.x > 290 &&
+      this.checkpoint === true
+    ) {
       this.lap++;
       this.checkpoint = false;
+
       if (this.player === "player1") {
         const lapCounter = document.getElementById("lap-count");
         lapCounter.textContent = `Player 1 Lap Counter: ${this.lap}/${this.totalLaps}`;
